@@ -27,6 +27,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+# give users the ability to log in and log out
+
 # admin page is a default page that can be used to manage users
 # can create a superUser and designate a username and password from shell (simple passwords could cause errors)
 # password is encrypted and stored automatically by django
+

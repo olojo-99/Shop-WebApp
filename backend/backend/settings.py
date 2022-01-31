@@ -129,3 +129,7 @@ MEDIA_URL = '/media/' #urls will link to media folder
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'benshop.APIUser'
+
+# can override where user is taken after logging in here
+LOGIN_URL = "/login"
+LOGIN_REDIRECT_URL = "/" # redirect to homepage after logging in

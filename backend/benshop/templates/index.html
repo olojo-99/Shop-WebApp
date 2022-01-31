@@ -1,7 +1,29 @@
 {%  extends "base.html" %}
 
-{% block title %} Hello world {%  endblock %}
+{% block title %} BenShop {%  endblock %}
 
 {%  block content %}
    <p>Welcome to my store</p>
+
+   <br>
+   <a href="/login">Login Here</a>
+   <br>
+   <a href="/logout">Logout Here</a>
+
+   <ul>
+      {% for p in products  %}
+          <li>{{ p.name }} - €{{p.price}} - {{p.description}}</li> <!--Use double curly bracket for a variable in django-->
+          
+           <a href="/products/{{p.id}}">
+               <img src="{{p.product_image.url}}" />
+          </a>
+
+          <a href="/products/{{p.id}}">View</a>
+      {% endfor %}
+  </ul>
+
+  <a href="/register">Register Here</a>
+
+  <br>
+
 {%  endblock %}
