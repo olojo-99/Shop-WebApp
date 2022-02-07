@@ -1,13 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import *
-from django.shortcuts import redirect
 from django.views.generic import CreateView
 from django.contrib.auth import login, logout
-from .forms import *
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
+from .models import *
+from .forms import *
 
 # Create your views here.
 
@@ -70,20 +69,116 @@ def logout_user(request):
 def add_to_basket(request, prodid):
     user = request.user
     # is there a shopping basket for the user 
+
     basket = Basket.objects.filter(user_id=user, is_active=True).first()
-    if not basket:
+    if basket is None:
         # create a new one
-        basket = Basket(user_id = user).save() # set userID
-    # get the product
+        Basket.objects.create(user_id = user)
+        basket = Basket.objects.filter(user_id=user, is_active=True).first()
+
+    # get the product 
     products = Product.objects.get(id=prodid)
     sbi = BasketItems.objects.filter(basket_id=basket, product_id = products).first()
+
     if sbi is None:
-        # there is no basket item for that product
-        # create one
-        sbi = BasketItems(basket_id=basket, product_id = products).save()
+        # there is no basket item for that product 
+        # create one 
+        sbi = BasketItems(basket_id=basket, product_id = products)
+        sbi.save()
     else:
         # a basket item already exists 
         # just add 1 to the quantity
         sbi.quantity = sbi.quantity+1
         sbi.save()
+        
     return render(request, 'individual_products.html', {'products': products, 'added':True})
+
+
+#Creating method for displaying shopping basket
+# get the user basket
+# does the basket exist - basket could be empty but exist too
+# Basket could become empty once we implement removing basket items
+# load basket items
+# display on page
+@login_required
+def show_basket(request):
+    user = request.user
+    basket = Basket.objects.filter(user_id=user, is_active=True).first()
+
+    if basket is None:
+        #Show basket empty
+        return render(request, 'basket.html', {'empty':True})
+    else:
+        sbi = BasketItems.objects.filter(basket_id=basket)
+        # is this list empty ? 
+        if sbi.exists():
+            # normal flow
+            return render(request, 'basket.html', {'basket':basket, 'sbi':sbi})
+        else:
+            return render(request, 'basket.html', {'empty':True})
+
+
+@login_required
+def remove_item(request,sbi):
+    basketitem = BasketItems.objects.get(id=sbi)
+    if basketitem is None:
+        return redirect("/basket") # if error redirect to shopping basket
+    else:
+        if basketitem.quantity > 1:
+            basketitem.quantity = basketitem.quantity - 1
+            basketitem.save() # save our changes to the db
+        else:
+            basketitem.delete() # delete the basket item
+
+    return redirect("/basket")
+
+
+@login_required
+def order(request):
+    # load in all data we need, user, basket, items
+    user = request.user
+    basket = Basket.objects.filter(user_id=user, is_active=True).first()
+    if basket is None:
+        return redirect("/")
+
+    sbi = BasketItems.objects.filter(basket_id=basket)
+    if not sbi.exists(): # if there are no items
+        return redirect("/")
+
+    # POST or GET
+    if request.method == "POST":
+        # check if valid
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            order = form.save(commit=False)
+            order.user_id = user
+            order.basket_id = basket
+            total = 0.0
+            for item in sbi:
+                total += float(item.item_price()) # float cast needed as item.price is a django decimal type
+            order.total_price = total
+            order.save()
+            basket.is_active = False
+            basket.save()
+            return render(request, 'ordercomplete.html', {'order':order, 'basket':basket, 'sbi':sbi})
+        else:
+            #GET request
+            return render(request, 'orderform.html', {'form':form, 'basket':basket, 'sbi':sbi})
+    else:
+        # show the form
+        form = OrderForm()
+        return render(request, 'orderform.html', {'form':form, 'basket':basket, 'sbi':sbi})
+
+
+@login_required
+def previous_orders(request):
+    user = request.user
+    orders = Order.objects.filter(user_id=user)
+
+    if not orders.exists():
+        # Return "No outstanding orders" page
+        return render(request, 'previous_orders.html', {'empty':True})
+    
+    # Normal flow
+    return render(request, 'previous_orders.html', {'orders':orders})
+

@@ -8,4 +8,4 @@ admin.site.register(Basket)
 admin.site.register(Order)
 admin.site.register(BasketItems)
 
-# Can register different models so that they can be manange through the admin (and admin page)
+# Can register different models so that they can be managed through the admin interface

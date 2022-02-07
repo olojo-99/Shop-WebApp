@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Shopping Basket{% endblock %}
+
+
+{% block content %}
+
+{% if empty %}
+    <p>Your shopping basket is empty</p>
+{% else %}
+    <table>
+        <tbody>
+            {% for item in sbi %}
+            <tr>
+                <td>{{item.product_id.name}} - {{item.product_id.description }}</td>
+                <td><img src="{{item.product_id.product_image.url}}"/> </td>
+                <td>QUANTITY: {{item.quantity}} </td>
+                <td> -> PRICE: {{ item.item_price }}</td>
+                <td> -> <a href="/removeitem/{{item.id}}">Remove</a> </td>
+            </tr>
+                
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Only want order option to appear if user has a shopping basket with items in it-->
+    <a href="/order">Order</a>
+{% endif %}
+
+{% endblock %}

@@ -17,7 +17,7 @@ class Product(models.Model):
     description = models.CharField(max_length=200, null = False)
     price = models.DecimalField(max_digits=6, decimal_places=2, default=0.0)
     product_image = models.FileField(upload_to='products')
-    # can add a product type tag and product image
+    tag = models.CharField(max_length=200, null=False)
 
 class Basket(models.Model):
     id = models.AutoField(primary_key=True)
@@ -34,7 +34,7 @@ class BasketItems(models.Model):
     date_time = models.DateTimeField(auto_now_add=True)
 
     def item_price(self):
-	    return self.product_id.price * self.quantity # returns the product_id - linked by foreign key
+	    return self.product_id.price * self.quantity # link to Product model by foreign key
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
@@ -42,5 +42,6 @@ class Order(models.Model):
     basket_id = models.ForeignKey(Basket, on_delete=models.CASCADE)
     user_id = models.ForeignKey(APIUser, on_delete=models.CASCADE)
     total_price = models.DecimalField(max_digits=6, decimal_places=2, default=0.0)
-    # can add order and payment status, shipping address, delivery status
+    shipping_addr = models.TextField(default="")
+    # can add order and payment status, delivery status
 

@@ -32,4 +32,3 @@ urlpatterns = [
 # admin page is a default page that can be used to manage users
 # can create a superUser and designate a username and password from shell (simple passwords could cause errors)
 # password is encrypted and stored automatically by django
-
