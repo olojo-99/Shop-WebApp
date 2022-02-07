@@ -13,7 +13,7 @@
                 <td><img src="{{item.product_id.product_image.url}}" /> </td>
                 <td>{{ item.quantity }}</td>
                 <td>{{ item.price }}</td>
-                <td><a href="/removeitem/{{item.id}}">Remove</a> </td>
+                <!--Excluded "remove" button here since the order is already complete-->
             </tr>
                 
             {% endfor %}
