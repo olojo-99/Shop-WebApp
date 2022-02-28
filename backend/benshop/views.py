@@ -7,10 +7,9 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
-
 
 
 # Create your views here.
@@ -189,7 +188,6 @@ def previous_orders(request):
 
 
 # SERIALIZERS
-
 class ProductViewSet(viewsets.ModelViewSet):
 	queryset = Product.objects.all()
 	serializer_class = ProductSerializer
@@ -226,3 +224,24 @@ class APIUserViewSet(viewsets.ModelViewSet):
     queryset = APIUser.objects.all()
     serializer_class = APIUserSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
+
+class UserRegistrationAPIView(generics.CreateAPIView):
+    serializer_class = UserRegistrationSerializer
+    permission_classes = [AllowAny] #No login is needed to access this route
+    queryset = queryset = APIUser.objects.all()
+
+class AddBasketItemAPIView(generics.CreateAPIView):
+    serializer_class = AddBasketItemSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = BasketItems.objects.all()
+
+class RemoveBasketItemAPIView(generics.CreateAPIView):
+    serializer_class = RemoveBasketItemSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = BasketItems.objects.all()
+
+class CheckoutAPIView(generics.CreateAPIView):
+    serializer_class = CheckoutSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Order.objects.all()
+
