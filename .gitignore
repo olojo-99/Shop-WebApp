@@ -269,3 +269,7 @@ cython_debug/
 # Ignore all local history of files
 .history
 .ionide
+
+# ignore the node_modules folder in frontend
+# this folder is automatically generated
+/frontend/node_modules
