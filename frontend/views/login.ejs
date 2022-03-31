@@ -1,12 +1,12 @@
 <html>
 
     <head>
-			<title>Login Page</title>
+			<title><%= title %></title>
     </head>
 
     <body>
         <h1>Login</h1>
-        <form id="login-form">
+        <form id="login-form"> 
             <label for="username-input">Username</label>
             <input type="text" name="username-input" id="username" placeholder="Your username">
             <label for="password-input">Password</label>
@@ -14,60 +14,7 @@
             <button type="submit">Login</button>
         </form>
 		
-        <script>
-            function formValidator(event)
-                {
-                    event.preventDefault(); // always prevent default events when using javascript
-                    let username = document.getElementById("username").value; // get the value the in the username box
-                    let password = document.getElementById("password").value; // get the value in the password box
-                    if( username == ""){
-                        alert("Username cannot be null");
-                    }
-
-                    else if (password == ""){
-                        alert("Password cannot be null");
-                    }
-
-                    else{
-                        fetch("http://127.0.0.1:8000/api/token/", {
-                            method: 'POST',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({username: username, password: password})
-                        }).then(response=>response.json())
-                        fetch("http://127.0.0.1:8000/api/token/", {
-                            method: 'POST',
-                            headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'},
-                        body: JSON.stringify({username: username, password: password})
-                        }).then(response=>response.json())
-                        .then(data=>{
-                            console.log(data); // still log it so we can debug
-
-                        if('access' in data){
-                            // successful login
-                            let accessToken = data['access'];
-                            let refreshToken = data['refresh'];
-                            localStorage.setItem("access", accessToken);
-                            localStorage.setItem("refresh", refreshToken);
-
-                            window.location.href = "/"; // the "/" is the homepage for node http://127.0.0.1:3000
-                        }
-
-                    else{
-                        alert("username or password invalid");
-                    }
-                    });
-                    
-                    }
-                }
-
-            let myform = document.getElementById("login-form"); // get the form 
-            myform.addEventListener('submit', formValidator); // bind the validator function to the submit button for the form
-		</script>
+        <script src="/javascripts/formvalidator.js"></script>
 
     </body>
 </html>

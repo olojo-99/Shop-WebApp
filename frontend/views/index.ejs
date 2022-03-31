@@ -1,29 +1,15 @@
-<!DOCTYPE html>
-<html>
+<%- include('header') -%>
+		<!-- code to show the navbar goes here -->
 
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
+		<!-- Check for whether user is logged in is done in header.ejs-->
 
-  <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
     <ol id="prodlist"></ol>
-  </body>
 
-  <script>
-    let ele = document.getElementById("prodlist");
-    let req = "http://127.0.0.1:8000/api/products/"
+    <script src="/javascripts/index.js"></script>
 
-    fetch(req) // make a request to this endpoint
-      .then(response => response.json()) // with our response, get the json data returned
-      .then(data => data.forEach(element => {
-        let prodName = element.name // get the pokemon name 
-        let newListelement = document.createElement("li")// create an li element 
-        newListelement.innerHTML = prodName // + prodDesc + prodPrice + ...
-        prodlist.appendChild(newListelement);
-      }));
-</script>
-
+	<!-- footer code -->
+	<script src="/javascripts/login.js"></script>
+</body>
 </html>
