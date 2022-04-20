@@ -1,0 +1,31 @@
+<%- include('header') -%>
+<!-- Check for whether user is logged in is done in header.ejs-->
+        <title><%= title %></title>
+	</head>
+	<body>
+
+		<h1>Previous Orders</h1>
+
+        <!-- Bootstrap CSS used here-->
+
+        <div id="orders-div">
+            <p class="message" id="message"></p>
+
+            <table class="table" id="no-orders">
+                <thead>
+                    <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Ordered on</th> 
+                        <th scope="col">Shipping to</th>
+                        <th scope="col"> Total price</th>
+                    </tr>
+                </thead>
+
+                <tbody id="previous">
+                </tbody>
+            </table>
+        </div>
+
+		<script src="javascripts/previous.js"></script>
+		
+<%- include('footer') -%>

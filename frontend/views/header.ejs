@@ -6,15 +6,18 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<!-- css and js libraries go here -->
-        <link rel='stylesheet' href='/stylesheets/style.css' />
-
-		<!-- Link for navbar stylesheet -->
+		<!-- Bootstrap CSS Framework -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+		<!-- Tailwind CSS framework also used-->
+		<link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css">
+
+		<link rel='stylesheet' href='/stylesheets/style.css' />
 	</head>
 
 	<body>
 		<!-- code to show the navbar goes here -->
+		<!-- Bootstrap used here-->
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 	
@@ -24,19 +27,20 @@
 	
 				<!--Links to products based on "tag" attribute in models.py will be added-->
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/">Home</a></li>
-					<li><a href="#">Phones</a></li>
-					<li><a href="#">Audio</a></li>
-					<li><a href="#">Computing</a></li>
+					<li><a href="/">Home</a></li>
+					<li><a href="/phones">Phones</a></li>
+					<li><a href="/audio">Audio</a></li>
+					<li><a href="/computing">Computing</a></li>
 				</ul>
-	
+
 				<ul class="nav navbar-nav navbar-right">
-				  <!--Load basket link if user is signed in-->
-						<li><a href="/basket"><span class=""></span> Shopping Basket</a></li>
+				  <!--Load basket link if user is signed in -> change in login.js -->
+						<li><a id="basket-link"><span class=""></span></a></li>
+						
+					<!--Load order history if user is signed in -> change in login.js -->
+						  <li><a id="order-link"><span class=""></span></a></li>
 	
-					<!--Load order history if user is signed in-->
-						  <li><a href="/order"><span class=""></span> Order History</a></li>
-	
+					<!--Load register button-->
 					<li><a href="/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
 	
 					<!--Load login/logout button-->

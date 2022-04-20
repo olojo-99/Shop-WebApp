@@ -3,8 +3,8 @@ window.userLoggedIn = false;
 	function isLoggedIn(){
 		let accessToken = localStorage.getItem("access");
 
-    // accessToken will become an empty string after logging out
-    if(accessToken != ""){
+    // accessToken will become null after logging out
+    if(accessToken != null){
       // if there is an access token in localstorage
       window.userLoggedIn = true;
     }
@@ -16,11 +16,20 @@ window.userLoggedIn = false;
           loginLink.innerHTML = "Logout"; // change from 'Login' to 'Logout'
           loginLink.href = "#"; // no link for logout
 
+          // Add a link to the shopping basket if user is logged in
+          let basketLink = document.getElementById("basket-link");
+          basketLink.innerHTML = "Shopping Basket"; // Display some HTML in the navbar for the shopping basket
+          basketLink.href = "/basket"; // add a link to the basket page
+
+          // Add a link to order history if user is logged in
+          let orderLink = document.getElementById("order-link");
+          orderLink.innerHTML = "Order History"; // Display some HTML in the navbar for the order history link
+          orderLink.href = "/previous"; // add a link to the order history
           loginLink.onclick = () =>{
             // simply remove the access and refresh token
-            localStorage.setItem("access", "");
-            localStorage.setItem("refresh", "");
-            window.location.href = "/"; //refresh the page after logging out
+            localStorage.removeItem("access");
+            localStorage.removeItem("refresh");
+            window.location.href = "/"; // redirect to home
           }
 			}
 	}

@@ -1,12 +1,15 @@
-<html>
-	<head>
-		<!-- css and js libraries go here -->
+<%- include('header') -%>
         <title><%= title %></title>
-        <link rel='stylesheet' href='/stylesheets/style.css' />
+
 	</head>
 	<body>
-		<!-- code to show the navbar goes here -->
 
-	<!-- footer code -->
-	</body>
-</html>
+		<h1>Shopping Basket</h1>
+
+		<p class="message" id="empty"></p> <!--Used for empty baskets-->
+
+		<div class="parent-div" id="cart"></div>
+
+		<script src="javascripts/viewcart.js"></script>
+		
+<%- include('footer') -%>
