@@ -1,4 +1,3 @@
-
 // create function that get products from the api/products endpoint
 function displayCard(product_info){
     let product_name = product_info['name'];
@@ -91,6 +90,7 @@ function buildCartPage(){
                 checkout.onclick = ()=> window.location.href = "/order"; // redirect to home
 
                 document.body.appendChild(checkout);
+                // container.appendChild(checkout);
             }
         });
             

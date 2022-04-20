@@ -24,6 +24,8 @@ p {
 footer
 {
   margin-top: auto;
+  bottom: 0;
+  position:static;
 }
 
 footer a
