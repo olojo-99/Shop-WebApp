@@ -1,3 +1,1 @@
-# 2022 Ca298 Template
-
-Template repo for Ca298
+A full stack web app with a Node.js frontend and a Django backend with a SQLite database
